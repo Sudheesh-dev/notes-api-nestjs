@@ -6,7 +6,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ~/volumes/postgres:/var/lib/postgresql/data
+      - ./volumes/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=notes_app
       - POSTGRES_USER=notes_app
@@ -21,3 +21,27 @@ services:
       PGADMIN_DEFAULT_PASSWORD: notes_app
     ports:
       - 5050:80
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
+    container_name: elasticsearch
+    volumes:
+      - elasticsearch-volume:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    restart: always
+    environment:
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - ELASTIC_PASSWORD=elastic
+      - ELASTIC_USERNAME=elastic
+      - xpack.security.enabled=true
+    ulimits:
+      memlock:
+        soft: 2097152
+        hard: 2097152
+
+volumes:
+  elasticsearch-volume:
+    driver: local

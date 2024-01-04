@@ -8,6 +8,7 @@ import { SwaggerService } from './common/services/swagger.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { DataWrapperInterceptor } from './common/interceptors/data-wrapper.interceptor';
+import { ElasticsearchService } from './common/services/elastic-search.service';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { DataWrapperInterceptor } from './common/interceptors/data-wrapper.inter
       provide: APP_INTERCEPTOR,
       useClass: DataWrapperInterceptor,
     },
-    SwaggerService
+    SwaggerService,
+    ElasticsearchService
   ],
 })
 export class AppModule { 
