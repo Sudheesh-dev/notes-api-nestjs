@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNoteDto } from './dtos/create-note.dto';
@@ -24,6 +24,7 @@ export class NotesController {
     }
   
     @UseGuards(JwtAuthGuard)
+    @HttpCode(HttpStatus.CREATED)
     @Post()
     async create(@Body() createNoteDto: CreateNoteDto, @Request() request) {
       return this.notesService.create(request.user.userId, createNoteDto);
@@ -36,9 +37,10 @@ export class NotesController {
     }
   
     @UseGuards(JwtAuthGuard)
+    @HttpCode(HttpStatus.NO_CONTENT)
     @Delete(':id')
     async remove(@Param('id') id: string, @Request() request) {
-      return this.notesService.softDelete(request.user.userId, id);
+      await this.notesService.softDelete(request.user.userId, id);
     }
 
   }

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, BeforeUpdate, BeforeInsert } from 'typeorm';
 import { User } from '../users/users.entity';
 
 @Entity({
@@ -29,4 +29,10 @@ export class Note {
   @ManyToOne(() => User, user => user.notes)
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @BeforeUpdate()
+  updateTimestamp() {
+    this.updatedAt = Math.floor(Date.now()/1000);
+  }
+
 }
