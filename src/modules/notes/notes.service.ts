@@ -30,19 +30,13 @@ export class NotesService {
   }
 
   async update(userId: string, id: string, updateNoteDto: UpdateNoteDto): Promise<Note> {
-    const note = await this.noteRepository.findOne({ where: { id, userId, deletedAt:IsNull() } });
-    if (!note) {
-      throw new NotFoundException('Note with the given id is not found');
-    }
+    const note = await this.findOne(userId, id);
     const updatedNote = this.noteRepository.create({ ...note, ...updateNoteDto });
     return this.noteRepository.save(updatedNote);
   }
 
   async softDelete(userId: string, id: string): Promise<Note> {
-    const note = await this.noteRepository.findOne({ where: { id, userId, deletedAt: IsNull() } });
-    if (!note) {
-      throw new NotFoundException('Note with the given id is not found');
-    }
+    const note = await this.findOne(userId, id);
     note.deletedAt = Math.floor(Date.now()/1000)
     return await this.noteRepository.save(note);
   }

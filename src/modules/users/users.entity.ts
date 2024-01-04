@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeUpdate } from 'typeorm';
 import { Note } from '../notes/notes.entity';
 
 @Entity({
@@ -28,5 +28,10 @@ export class User {
 
   @OneToMany(() => Note, note => note.user)
   notes: Note[];
+
+  @BeforeUpdate()
+  updateTimestamp() {
+    this.updatedAt = Math.floor(Date.now()/1000);
+  }
 
 }
