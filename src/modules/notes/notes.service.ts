@@ -55,4 +55,9 @@ export class NotesService {
     await this.elasticsearchService.removeNoteById(note.id)
     return softDeletedNote;
   }
+
+  async search(userId: string, searchTerm: string){
+    return await this.elasticsearchService.searchNotesByTermAndUserId(userId, searchTerm)
+  }
+  
 }

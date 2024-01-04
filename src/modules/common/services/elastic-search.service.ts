@@ -71,8 +71,7 @@ export class ElasticsearchService {
       index: process.env.ELATICSEARCH_NOTES_INDEX,
       body: searchQuery,
     });
-
-    return data.hits.hits.map((hit) => hit._source);
+    return data.hits.hits.map((hit:any) => ({...hit._source,id:hit._id}));
   }
 
   async addNoteToIndex(id:string, note: AddOrUpdateNotesToElasticDto) {
