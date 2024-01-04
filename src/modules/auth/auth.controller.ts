@@ -2,7 +2,7 @@ import { Controller, Post, Body, NotFoundException, ConflictException } from '@n
 import { AuthService } from './auth.service';
 import { CreateUserDto, LoginUserDto } from '../users/dtos/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { ErrorCodes, ErrorMessages } from 'src/common/constants/constants';
+import { ErrorCodes, ErrorMessages } from '../common/constants/constants';
 
 @Controller('api/auth')
 @ApiTags("Auth")

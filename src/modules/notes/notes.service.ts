@@ -2,14 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Repository } from 'typeorm';
 import { Note } from './notes.entity';
-import { CreateNoteDto } from './dtos/create-note.dto';
-import { UpdateNoteDto } from './dtos/update-note.dto';
+import { CreateNoteDto, UpdateNoteDto } from './dtos/notes.dto';
+import { ElasticsearchService } from 'src/modules/common/services/elastic-search.service';
 
 @Injectable()
 export class NotesService {
   constructor(
     @InjectRepository(Note)
     private readonly noteRepository: Repository<Note>,
+    private readonly elasticsearchService:ElasticsearchService,
   ) {}
 
   async findAll(userId: string): Promise<Note[]> {
@@ -25,19 +26,33 @@ export class NotesService {
   }
 
   async create(userId: string, createNoteDto: CreateNoteDto): Promise<Note> {
-    const note = this.noteRepository.create({ ...createNoteDto, userId });
-    return this.noteRepository.save(note);
+    let note = this.noteRepository.create({ ...createNoteDto, userId });
+    note = await this.noteRepository.save(note);
+    await this.elasticsearchService.addNoteToIndex(note.id, {
+      title:note.title,
+      content:note.content,
+      userId:note.userId,
+    })
+    return note;
   }
 
   async update(userId: string, id: string, updateNoteDto: UpdateNoteDto): Promise<Note> {
     const note = await this.findOne(userId, id);
-    const updatedNote = this.noteRepository.create({ ...note, ...updateNoteDto });
-    return this.noteRepository.save(updatedNote);
+    let updatedNote = this.noteRepository.create({ ...note, ...updateNoteDto });
+    updatedNote = await this.noteRepository.save(updatedNote);
+    await this.elasticsearchService.updateNoteById(note.id, {
+      title:note.title,
+      content:note.content,
+      userId:note.userId,
+    })
+    return updatedNote;
   }
 
   async softDelete(userId: string, id: string): Promise<Note> {
     const note = await this.findOne(userId, id);
     note.deletedAt = Math.floor(Date.now()/1000)
-    return await this.noteRepository.save(note);
+    let softDeletedNote = await this.noteRepository.save(note);
+    await this.elasticsearchService.removeNoteById(note.id)
+    return softDeletedNote;
   }
 }

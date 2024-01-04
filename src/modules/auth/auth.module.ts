@@ -5,8 +5,8 @@ import { UsersModule } from '../users/users.module';
 import { UsersService } from '../users/users.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ENV_VARS } from 'src/common/constants/constants';
 import { JwtStrategy } from './strategies/jwt-stategy';
+import { ENV_VARS } from '../common/constants/constants';
 
 @Module({
   imports: [

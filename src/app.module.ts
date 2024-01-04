@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DEFAULT_NODE_ENV, TYPEORM_DB_TYPES } from './common/constants/constants';
+import { DEFAULT_NODE_ENV, TYPEORM_DB_TYPES } from './modules/common/constants/constants';
 import { UsersModule } from './modules/users/users.module';
 import { NotesModule } from './modules/notes/notes.module';
-import { SwaggerService } from './common/services/swagger.service';
+import { SwaggerService } from './modules/common/services/swagger.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { DataWrapperInterceptor } from './common/interceptors/data-wrapper.interceptor';
-import { ElasticsearchService } from './common/services/elastic-search.service';
+import { DataWrapperInterceptor } from './modules/common/interceptors/data-wrapper.interceptor';
+import { CommonModule } from './modules/common/common.module';
 
 @Module({
   imports: [
@@ -30,6 +30,7 @@ import { ElasticsearchService } from './common/services/elastic-search.service';
     AuthModule,
     UsersModule,
     NotesModule,
+    CommonModule,
   ],
   controllers: [],
   providers: [
@@ -37,9 +38,8 @@ import { ElasticsearchService } from './common/services/elastic-search.service';
       provide: APP_INTERCEPTOR,
       useClass: DataWrapperInterceptor,
     },
-    SwaggerService,
-    ElasticsearchService
   ],
+  exports:[]
 })
 export class AppModule { 
   constructor(private readonly swaggerService: SwaggerService) {} // Inject SwaggerService
@@ -47,6 +47,7 @@ export class AppModule {
   configureSwagger(app) {
     this.swaggerService.configureSwagger(app); // Use the SwaggerService to configure Swagger
   }
+  
  }
 
 

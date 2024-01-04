@@ -1,8 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CreateNoteDto } from './dtos/create-note.dto';
-import { UpdateNoteDto } from './dtos/update-note.dto';
+import { CreateNoteDto, UpdateNoteDto } from './dtos/notes.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('api/notes')

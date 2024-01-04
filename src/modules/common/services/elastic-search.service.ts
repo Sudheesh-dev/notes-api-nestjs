@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Client } from '@elastic/elasticsearch';
 import { ConfigService } from '@nestjs/config';
+import { AddOrUpdateNotesToElasticDto } from 'src/modules/notes/dtos/notes.dto';
 
 @Injectable()
 export class ElasticsearchService {
@@ -28,6 +29,7 @@ export class ElasticsearchService {
     const indexExists = await this.client.indices.exists({ index: indexName });
     this.logger.log(`indexExists : ${indexExists}`)
     if (!indexExists) {
+      this.logger.log(`Creating index ${indexName} in es`)
       await this.client.indices.create({
         index: indexName,
         body: {
@@ -73,10 +75,35 @@ export class ElasticsearchService {
     return data.hits.hits.map((hit) => hit._source);
   }
 
-  async addNoteToIndex(note: any) {
+  async addNoteToIndex(id:string, note: AddOrUpdateNotesToElasticDto) {
+    this.logger.log("adding note in elasticsearch")
     const body = await this.client.index({
       index: this.notesIndexName,
       body: note,
+      id
+    });
+
+    return body;
+  }
+
+  async updateNoteById(noteId: string, updatedNote: AddOrUpdateNotesToElasticDto) {
+    this.logger.log("updating note in elasticsearch")
+    const body = await this.client.update({
+      index: this.notesIndexName,
+      id: noteId,
+      body: {
+        doc: updatedNote,
+      },
+    });
+
+    return body;
+  }
+
+  async removeNoteById(noteId: string) {
+    this.logger.log("removing note from elasticsearch")
+    const body = await this.client.delete({
+      index: this.notesIndexName,
+      id: noteId,
     });
 
     return body;
