@@ -35,6 +35,10 @@
 
 
 <h2>Swagger Documentation</h2>
+<h3>Rate Limiting</h3>
+
+- Each end point has a rate limit of 3 requests per 5 seconds
+
 <p>
   The Swagger documentation for this API can be accessed by navigating to <code>http://localhost:3001/api/docs</code> from the broser when the server is running locally.
 </p>
@@ -72,6 +76,7 @@ Authorization: Bearer &lt;your_access_token_here&gt;
 <p>
   Replace <code>&lt;your_access_token_here&gt;</code> with the actual access token received upon login.
 </p>
+
 
 <h2>TO DO Items</h2>
 
