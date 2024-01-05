@@ -28,7 +28,7 @@
   <li><strong>Running with Docker Compose</strong><br>
     <p>Run the following command from the root of the project.</p>
     <code>docker-compose up</code>
-    <p>This command will spin up containers for Node, PostgreSQL, Elasticsearch, and Redis using the configurations defined in the <code>docker-compose.yml</code> file and start the server. This can take a while since it has to pull all the images and build all the containers. please stop the containers and run the command again in case if the application is not working on the first attempt.</p>
+    <p>This command will spin up containers for Node, PostgreSQL, Elasticsearch, and Redis using the configurations defined in the <code>docker-compose.yml</code> file and start the server. This <strong>may take a while</strong> since it has to pull all the images and build all the containers. please stop the containers and run the command again in case if the application is not working on the first attempt.</p>
     <p>Once application runs successfully, the server will be available on PORT 3001</p>
   </li>
 </ol>
@@ -44,12 +44,12 @@
   <summary>Authentication Endpoints</summary>
   <ul>
     <li><strong>POST /api/auth/signup</strong>: Create a new user account with name, email and password  and receive an access token.</li>
-    <li><strong>POST /api/auth/login</strong>: Log in to an existing user account with email and password and receive an access token.</li>
+    <li><strong>POST /api/auth/login</strong>: Log in to an existing user account with <strong>email and password</strong> and receive an <strong>access token</strong>.</li>
   </ul>
 
   <summary>Note Endpoints (require authentication)</summary>
   <ul>
-    <li><strong>GET /api/notes</strong>: Get a list of all notes for the authenticated user with pagination.</li>
+    <li><strong>GET /api/notes</strong>: Get a list of all notes for the authenticated user with <strong>pagination</strong>.</li>
     <li><strong>GET /api/notes/:id</strong>: Get a note by ID for the authenticated user.</li>
     <li><strong>POST /api/notes</strong>: Create a new note for the authenticated user.</li>
     <li><strong>PUT /api/notes/:id</strong>: Update an existing note by ID for the authenticated user.</li>
