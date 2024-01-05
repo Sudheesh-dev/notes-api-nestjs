@@ -61,7 +61,7 @@
 
 <h3>Rate Limiting</h3>
 
-- Each end point has a rate limit of 3 requests per 5 seconds
+- Each end point has a rate limit of <strong>3 requests per 5 seconds</strong>
 
 <h2>Bearer Token for Authenticated Routes</h2>
 <p>
