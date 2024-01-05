@@ -1,10 +1,12 @@
-import { HttpException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, HttpException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, IsNull, Repository } from 'typeorm';
-import { Note } from './notes.entity';
+import { Note } from './entities/notes.entity';
 import { CreateNoteDto, UpdateNoteDto } from './dtos/notes.dto';
 import { ElasticsearchService } from 'src/modules/common/services/elastic-search.service';
 import { ErrorMessages } from '../common/constants/constants';
+import { SharedNote } from './entities/shared-notes.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class NotesService {
@@ -12,8 +14,11 @@ export class NotesService {
   constructor(
     @InjectRepository(Note)
     private readonly noteRepository: Repository<Note>,
+    @InjectRepository(SharedNote)
+    private readonly sharedNoteRepository: Repository<SharedNote>,
     private readonly dataSource: DataSource,
     private readonly elasticsearchService:ElasticsearchService,
+    private readonly usersService:UsersService,
   ) {}
 
   async findAll(userId: string,  skip:number=0, limit:number=10): Promise<Note[]> {
@@ -29,7 +34,7 @@ export class NotesService {
   async findOne(userId: string, id: string): Promise<Note> {
     const note = await this.noteRepository.findOne({ where: { id, userId, deletedAt:IsNull() } });
     if (!note) {
-      throw new NotFoundException('Note with the given id is not found');
+      throw new NotFoundException(ErrorMessages.NOTE_NOT_FOUND);
     }
     return note;
   }
@@ -96,6 +101,40 @@ export class NotesService {
 
   async search(userId: string, searchTerm: string, skip:number, limit:number){
     return await this.elasticsearchService.searchNotesByTermAndUserId(userId, searchTerm, skip, limit)
+  }
+
+  async shareNoteWithUser(userId: string, noteId: string, shareToUserId:string): Promise<SharedNote> {
+    if(userId === shareToUserId){
+      throw new BadRequestException(ErrorMessages.CANNOT_SHARE_TO_OWN_ID)
+    }
+    const isAlreadyShared = await this.sharedNoteRepository.findOne({
+      where:{userId:shareToUserId, noteId}
+    })
+    if(isAlreadyShared){
+      throw new ConflictException(ErrorMessages.NOTE_SHARED_ALREADY)
+    }
+    const note = await this.findOne(userId, noteId);
+    const shareToUser = await this.usersService.findById(shareToUserId)
+    if(!shareToUser){
+      throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
+    }
+    const sharedNote = new SharedNote();
+    sharedNote.note = note;
+    sharedNote.user = shareToUser;
+
+    return this.sharedNoteRepository.save(sharedNote);
+  }
+
+  async getNotesSharedWithUser(userId: string, skip:number=0, limit:number=10){
+    const result = await this.sharedNoteRepository.find({
+      where:{
+        userId
+      },
+      relations:["note"],
+      skip,
+      take:limit
+    })
+    return result?.map(data => data.note) ?? [];
   }
 
 }

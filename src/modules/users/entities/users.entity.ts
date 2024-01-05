@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeUpdate } from 'typeorm';
-import { Note } from '../notes/notes.entity';
+import { Note } from '../../notes/entities/notes.entity';
+import { SharedNote } from 'src/modules/notes/entities/shared-notes.entity';
 
 @Entity({
   name:"users"
@@ -28,6 +29,9 @@ export class User {
 
   @OneToMany(() => Note, note => note.user)
   notes: Note[];
+
+  @OneToMany(() => SharedNote, (sharedNote) => sharedNote.user)
+  sharedNotes: SharedNote[];
 
   @BeforeUpdate()
   updateTimestamp() {

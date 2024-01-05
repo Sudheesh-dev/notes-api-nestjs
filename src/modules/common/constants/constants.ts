@@ -5,7 +5,11 @@ export enum TYPEORM_DB_TYPES {
 export enum ErrorMessages {
     USEREMAIL_ALREADY_EXISTS = 'Email already exists',
     INVALID_CREDENTIALS = 'Invalid credentials.',
-    INTERNAL_SERVER_ERROR = "Internal server error"
+    INTERNAL_SERVER_ERROR = "Internal server error",
+    NOTE_NOT_FOUND = 'Note with the given id is not found',
+    USER_NOT_FOUND = "User not found",
+    NOTE_SHARED_ALREADY = "This note is already shared with the user",
+    CANNOT_SHARE_TO_OWN_ID = "Cannot share to own account"
 }
 
 export enum ErrorCodes {

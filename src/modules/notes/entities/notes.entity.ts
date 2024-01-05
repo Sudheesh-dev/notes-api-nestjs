@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, BeforeUpdate, BeforeInsert } from 'typeorm';
-import { User } from '../users/users.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, BeforeUpdate, BeforeInsert, OneToMany } from 'typeorm';
+import { User } from '../../users/entities/users.entity';
+import { SharedNote } from './shared-notes.entity';
 
 @Entity({
     name:"notes"
@@ -29,6 +30,9 @@ export class Note {
   @ManyToOne(() => User, user => user.notes)
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @OneToMany(() => SharedNote, (sharedNote) => sharedNote.note)
+  sharedWith: SharedNote[];
 
   @BeforeUpdate()
   updateTimestamp() {
