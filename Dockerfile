@@ -1,6 +1,7 @@
 FROM node:18
 
 COPY package*.json ./
+COPY yarn.lock ./
 
 RUN npm install yarn
 RUN yarn install
