@@ -43,20 +43,20 @@
 
   <summary>Authentication Endpoints</summary>
   <ul>
-    <li><strong>POST /api/auth/signup</strong>: Create a new user account and receive an access token.</li>
-    <li><strong>POST /api/auth/login</strong>: Log in to an existing user account and receive an access token.</li>
+    <li><strong>POST /api/auth/signup</strong>: Create a new user account with name, email and password  and receive an access token.</li>
+    <li><strong>POST /api/auth/login</strong>: Log in to an existing user account with email and password and receive an access token.</li>
   </ul>
 
   <summary>Note Endpoints (require authentication)</summary>
   <ul>
-    <li><strong>GET /api/notes</strong>: Get a list of all notes for the authenticated user.</li>
+    <li><strong>GET /api/notes</strong>: Get a list of all notes for the authenticated user with pagination.</li>
     <li><strong>GET /api/notes/:id</strong>: Get a note by ID for the authenticated user.</li>
     <li><strong>POST /api/notes</strong>: Create a new note for the authenticated user.</li>
     <li><strong>PUT /api/notes/:id</strong>: Update an existing note by ID for the authenticated user.</li>
     <li><strong>DELETE /api/notes/:id</strong>: Delete a note by ID for the authenticated user.</li>
     <li><strong>POST /api/notes/:id/share/:userId</strong>: Share a note with another user for the authenticated user.</li>
-    <li><strong>GET /api/notes/search?q=:query</strong>: Search for notes based on keywords for the authenticated user.</li>
-    <li><strong>GET /api/notes/shared</strong>: Get all the notes shared with the current user by other users.</li>
+    <li><strong>GET /api/notes/search?q=:query</strong>: Search for notes based on keywords for the authenticated user with pagination.</li>
+    <li><strong>GET /api/notes/shared</strong>: Get all the notes shared with the current user by other users with pagination.</li>
   </ul>
 
 <h3>Rate Limiting</h3>
