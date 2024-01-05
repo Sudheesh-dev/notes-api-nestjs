@@ -15,12 +15,12 @@
 </ul>
 
 <h2>Prerequisites</h2>
+<p>Please make sure that port 3001 is free on your computer</p>
 <p>
   Make sure you have the following installed:
 </p>
 <ul>
   <li>Docker and Docker Compose</li>
-  <li>Please make sure that port 3001 is free on your computer</li>
 </ul>
 
 <h2>Getting Started</h2>
@@ -28,11 +28,8 @@
   <li><strong>Running with Docker Compose</strong><br>
     <p>Run the following command from the root of the project.</p>
     <code>docker-compose up</code>
-    <p>This command will spin up containers for Node, PostgreSQL, Elasticsearch, and Redis using the configurations defined in the <code>docker-compose.yml</code> file. this can take some time since it has to pull all the images and build all teh containers. please stop the containers and run the command again in case if the application is not working on the first attempt.</p>
+    <p>This command will spin up containers for Node, PostgreSQL, Elasticsearch, and Redis using the configurations defined in the <code>docker-compose.yml</code> file. This can take some time since it has to pull all the images and build all the containers. please stop the containers and run the command again in case if the application is not working on the first attempt.</p>
     <p>Once application runs successfully, the server will be available on PORT 3001</p>
-  </li>
-  <li><strong>Running Tests</strong><br>
-    <p>Not Implemnted, in to do List</p>
   </li>
 </ol>
 
@@ -46,7 +43,7 @@
 
   <summary>Authentication Endpoints</summary>
   <ul>
-    <li><strong>POST /api/auth/signup</strong>: Create a new user account.</li>
+    <li><strong>POST /api/auth/signup</strong>: Create a new user account and receive an access token.</li>
     <li><strong>POST /api/auth/login</strong>: Log in to an existing user account and receive an access token.</li>
   </ul>
 
@@ -62,8 +59,11 @@
     <li><strong>GET /api/notes/shared</strong>: Get all the notes shared with the current user by other users.</li>
   </ul>
 
+<li><strong>TO DO Items</strong><br>
+  <p>Write tests for the app</p>
+</li>
+
 <h2>Contributors</h2>
 
-- Author - [Sudheesh](https://kamilmysliwiec.com)
+- Author - Sudheesh Ajayakumar
 - LinkedIn - [https://www.linkedin.com/in/sudheesh-ajayakumar/](https://www.linkedin.com/in/sudheesh-ajayakumar/)
-
