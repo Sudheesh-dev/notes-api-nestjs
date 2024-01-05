@@ -35,10 +35,6 @@
 
 
 <h2>Swagger Documentation</h2>
-<h3>Rate Limiting</h3>
-
-- Each end point has a rate limit of 3 requests per 5 seconds
-
 <p>
   The Swagger documentation for this API can be accessed by navigating to <code>http://localhost:3001/api/docs</code> from the broser when the server is running locally.
 </p>
@@ -63,6 +59,10 @@
     <li><strong>GET /api/notes/shared</strong>: Get all the notes shared with the current user by other users.</li>
   </ul>
 
+<h3>Rate Limiting</h3>
+
+- Each end point has a rate limit of 3 requests per 5 seconds
+
 <h2>Bearer Token for Authenticated Routes</h2>
 <p>
   To access authenticated routes, a Bearer token must be included in the request header. After successfully logging in, you will receive an access token.
@@ -70,9 +70,11 @@
 <p>
   Include the received access token in the Authorization header of your requests as follows:
 </p>
-<pre><code>
-Authorization: Bearer &lt;your_access_token_here&gt;
-</code></pre>
+<pre>
+<code>
+  Authorization: Bearer &lt;your_access_token_here&gt;
+</code>
+</pre>
 <p>
   Replace <code>&lt;your_access_token_here&gt;</code> with the actual access token received upon login.
 </p>
