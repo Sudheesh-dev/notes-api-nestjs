@@ -1,10 +1,25 @@
 version: '3.9'
 
 services:
+
+  notes-app:
+    container_name: my-node-app
+    build:
+      context: .
+    ports:
+      - 3001:3001
+    restart: always
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - notes-elasticsearch
+      - notes-db-postgres
+      - notes-redis
+
   notes-db-postgres:
     image: postgres:15-alpine
-    ports:
-      - 5432:5432
+    # ports:
+    #   - 5432:5432
     volumes:
       - ./volumes/postgres:/var/lib/postgresql/data
     environment:
@@ -12,23 +27,23 @@ services:
       - POSTGRES_USER=notes_app
       - POSTGRES_DB=db_notes
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: notes-db-pgadmin
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: test@test.com
-      PGADMIN_DEFAULT_PASSWORD: notes_app
-    ports:
-      - 5050:80
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   container_name: notes-db-pgadmin
+  #   restart: always
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: test@test.com
+  #     PGADMIN_DEFAULT_PASSWORD: notes_app
+  #   ports:
+  #     - 5050:80
 
   notes-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
     container_name: notes-elasticsearch
     volumes:
       - elasticsearch-volume:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
+    # ports:
+    #   - 9200:9200
     restart: always
     environment:
       - bootstrap.memory_lock=true
@@ -45,8 +60,8 @@ services:
   notes-redis:
     image: redis:7.2-alpine
     container_name: notes-redis
-    ports:
-      - 6379:6379
+    # ports:
+    #   - 6379:6379
     environment:
       - REDIS_PASSWORD=redis
     command: redis-server --requirepass redis

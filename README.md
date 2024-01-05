@@ -28,7 +28,7 @@
   <li><strong>Running with Docker Compose</strong><br>
     <p>Run the following command from the root of the project.</p>
     <code>docker-compose up</code>
-    <p>This command will spin up containers for Node, PostgreSQL, Elasticsearch, and Redis using the configurations defined in the <code>docker-compose.yml</code> file. This can take some time since it has to pull all the images and build all the containers. please stop the containers and run the command again in case if the application is not working on the first attempt.</p>
+    <p>This command will spin up containers for Node, PostgreSQL, Elasticsearch, and Redis using the configurations defined in the <code>docker-compose.yml</code> file and start the server. This can take a while since it has to pull all the images and build all the containers. please stop the containers and run the command again in case if the application is not working on the first attempt.</p>
     <p>Once application runs successfully, the server will be available on PORT 3001</p>
   </li>
 </ol>
