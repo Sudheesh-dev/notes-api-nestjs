@@ -1,73 +1,70 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+
+<!-- Title -->
+<h1><Project Name>API for a note taking app</h1>
+
+<!-- Description -->
+<p>
+  This project implements a RESTful API for managing notes, built with Node.js and NestJS. It utilizes PostgreSQL as the primary database, Elasticsearch for search and indexing, Redis for rate limiting, and Docker for containerization.
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<!-- Technology Stack -->
+<h2>Technologies Used</h2>
+<ul>
+  <li><strong>NestJS</strong>: A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.</li>
+  <li><strong>PostgreSQL</strong>: A powerful, open-source relational database system.</li>
+  <li><strong>Elasticsearch</strong>: A distributed, RESTful search and analytics engine for text-based search and indexing.</li>
+  <li><strong>Redis</strong>: An in-memory data structure store used for rate limiting.</li>
+  <li><strong>Docker</strong>: A containerization platform for packaging applications and their dependencies.</li>
+</ul>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+<!-- Prerequisites -->
+<h2>Prerequisites</h2>
+<p>
+  Make sure you have the following installed:
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<ul>
+  <li>Docker and Docker Compose</li>
+</ul>
 
-## Description
+<!-- Getting Started -->
+<h2>Getting Started</h2>
+<ol>
+  <li><strong>Running with Docker Compose</strong><br>
+    <code>docker-compose up</code>
+    <p>This command will spin up containers for Node, PostgreSQL, Elasticsearch, and Redis using the configurations defined in the <code>docker-compose.yml</code> file.</p>
+  </li>
+  <li><strong>Running Tests</strong><br>
+    <p>Not Implemnted, in to do List</p>
+  </li>
+</ol>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<h2>API Endpoints</h2>
 
-## Installation
+<details>
+  <summary>Authentication Endpoints</summary>
+  <ul>
+    <li><strong>POST /api/auth/signup</strong>: Create a new user account.</li>
+    <li><strong>POST /api/auth/login</strong>: Log in to an existing user account and receive an access token.</li>
+  </ul>
+</details>
 
-```bash
-$ npm install
-```
+<details>
+  <summary>Note Endpoints</summary>
+  <ul>
+    <li><strong>GET /api/notes</strong>: Get a list of all notes for the authenticated user.</li>
+    <li><strong>GET /api/notes/:id</strong>: Get a note by ID for the authenticated user.</li>
+    <li><strong>POST /api/notes</strong>: Create a new note for the authenticated user.</li>
+    <li><strong>PUT /api/notes/:id</strong>: Update an existing note by ID for the authenticated user.</li>
+    <li><strong>DELETE /api/notes/:id</strong>: Delete a note by ID for the authenticated user.</li>
+    <li><strong>POST /api/notes/:id/share/:noteId</strong>: Share a note with another user for the authenticated user.</li>
+    <li><strong>GET /api/notes/search?q=:query</strong>: Search for notes based on keywords for the authenticated user.</li>
+    <li><strong>GET /api/notes/shared</strong>: Get all the notes shared with the current user by other users.</li>
+  </ul>
+</details>
 
-## Running the app
+<h2>Contributors</h2>
 
-```bash
-# development
-$ npm run start
+- Author - [Sudheesh](https://kamilmysliwiec.com)
+- LinkedIn - [https://www.linkedin.com/in/sudheesh-ajayakumar/](https://www.linkedin.com/in/sudheesh-ajayakumar/)
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+<!-- List project contributors here -->
