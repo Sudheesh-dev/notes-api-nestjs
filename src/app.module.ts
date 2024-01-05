@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DEFAULT_NODE_ENV, TYPEORM_DB_TYPES } from './modules/common/constants/constants';
+import { DEFAULT_NODE_ENV, ENV_VARS, TYPEORM_DB_TYPES } from './modules/common/constants/constants';
 import { UsersModule } from './modules/users/users.module';
 import { NotesModule } from './modules/notes/notes.module';
 import { SwaggerService } from './modules/common/services/swagger.service';
 import { AuthModule } from './modules/auth/auth.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { DataWrapperInterceptor } from './modules/common/interceptors/data-wrapper.interceptor';
 import { CommonModule } from './modules/common/common.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 
 @Module({
   imports: [
@@ -27,6 +29,17 @@ import { CommonModule } from './modules/common/common.module';
       synchronize: true,
       autoLoadEntities:true,
     }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => [
+        {
+          ttl: config.get(ENV_VARS.THROTTLE_TTL),
+          limit: config.get(ENV_VARS.THROTTLE_LIMIT),
+          storage: new ThrottlerStorageRedisService(config.get(ENV_VARS.REDIS_CONNECTION_URL))
+        },
+      ],
+    }),
     AuthModule,
     UsersModule,
     NotesModule,
@@ -38,6 +51,10 @@ import { CommonModule } from './modules/common/common.module';
       provide: APP_INTERCEPTOR,
       useClass: DataWrapperInterceptor,
     },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }    
   ],
   exports:[]
 })
@@ -47,7 +64,7 @@ export class AppModule {
   configureSwagger(app) {
     this.swaggerService.configureSwagger(app); // Use the SwaggerService to configure Swagger
   }
-  
+
  }
 
 
