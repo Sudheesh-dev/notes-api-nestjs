@@ -50,7 +50,7 @@ export class ElasticsearchService {
   }
 
 
-  async searchNotesByTermAndUserId(userId: string, searchTerm: string) {
+  async searchNotesByTermAndUserId(userId: string, searchTerm: string, from:number=0, size:number=10) {
     const searchQuery = {
       query: {
         bool: {
@@ -70,6 +70,8 @@ export class ElasticsearchService {
     const data = await this.client.search({
       index: process.env.ELATICSEARCH_NOTES_INDEX,
       body: searchQuery,
+      from,
+      size,
     });
     return data.hits.hits.map((hit:any) => ({...hit._source,id:hit._id}));
   }

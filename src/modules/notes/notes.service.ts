@@ -13,8 +13,14 @@ export class NotesService {
     private readonly elasticsearchService:ElasticsearchService,
   ) {}
 
-  async findAll(userId: string): Promise<Note[]> {
-    return this.noteRepository.find({ where: { userId, deletedAt:IsNull() } });
+  async findAll(userId: string,  skip:number=0, limit:number=10): Promise<Note[]> {
+    return this.noteRepository.find({
+       where: {
+         userId, deletedAt:IsNull() 
+      },
+      skip:skip,
+      take:limit,
+    });
   }
 
   async findOne(userId: string, id: string): Promise<Note> {
@@ -56,8 +62,8 @@ export class NotesService {
     return softDeletedNote;
   }
 
-  async search(userId: string, searchTerm: string){
-    return await this.elasticsearchService.searchNotesByTermAndUserId(userId, searchTerm)
+  async search(userId: string, searchTerm: string, skip:number, limit:number){
+    return await this.elasticsearchService.searchNotesByTermAndUserId(userId, searchTerm, skip, limit)
   }
-  
+
 }

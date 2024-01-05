@@ -12,12 +12,14 @@ export class NotesController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async findAll(@Request() request) {
-      return this.notesService.findAll(request.user.userId);
+    async findAll(@Request() request, @Query("skip") skip:number, @Query("limit") limit:number) {
+      skip = isNaN(skip) ? 0 : skip
+      limit = isNaN(limit) ? 10 : limit
+      return this.notesService.findAll(request.user.userId, skip, limit);
     }
   
     @UseGuards(JwtAuthGuard)
-    @Get(':id([a-zA-Z0-9-]{36})') //to exclude /search
+    @Get(':id([a-zA-Z0-9-]{36})') //set the length to 36 to resolve the conflict with /search
     async findOne(@Param('id') id: string, @Request() request) {
       return this.notesService.findOne(request.user.userId, id );
     }
@@ -44,8 +46,10 @@ export class NotesController {
 
     @UseGuards(JwtAuthGuard)
     @Get('/search')
-    async search(@Query('q') serachTerm: string, @Request() request) {
-      return await this.notesService.search(request.user.userId, serachTerm);
+    async search(@Query('q') serachTerm: string, @Request() request, @Query("skip") skip:number, @Query("limit") limit:number) {
+      skip = isNaN(skip) ? 0 : skip
+      limit = isNaN(limit) ? 10 : limit
+      return await this.notesService.search(request.user.userId, serachTerm, skip, limit);
     }
 
   }
