@@ -47,21 +47,35 @@
     <li><strong>POST /api/auth/login</strong>: Log in to an existing user account and receive an access token.</li>
   </ul>
 
-  <summary>Note Endpoints</summary>
+  <summary>Note Endpoints (require authentication)</summary>
   <ul>
     <li><strong>GET /api/notes</strong>: Get a list of all notes for the authenticated user.</li>
     <li><strong>GET /api/notes/:id</strong>: Get a note by ID for the authenticated user.</li>
     <li><strong>POST /api/notes</strong>: Create a new note for the authenticated user.</li>
     <li><strong>PUT /api/notes/:id</strong>: Update an existing note by ID for the authenticated user.</li>
     <li><strong>DELETE /api/notes/:id</strong>: Delete a note by ID for the authenticated user.</li>
-    <li><strong>POST /api/notes/:id/share/:noteId</strong>: Share a note with another user for the authenticated user.</li>
+    <li><strong>POST /api/notes/:id/share/:userId</strong>: Share a note with another user for the authenticated user.</li>
     <li><strong>GET /api/notes/search?q=:query</strong>: Search for notes based on keywords for the authenticated user.</li>
     <li><strong>GET /api/notes/shared</strong>: Get all the notes shared with the current user by other users.</li>
   </ul>
 
-<li><strong>TO DO Items</strong><br>
-  <p>Write tests for the app</p>
-</li>
+<h2>Bearer Token for Authenticated Routes</h2>
+<p>
+  To access authenticated routes, a Bearer token must be included in the request header. After successfully logging in, you will receive an access token.
+</p>
+<p>
+  Include the received access token in the Authorization header of your requests as follows:
+</p>
+<pre><code>
+Authorization: Bearer &lt;your_access_token_here&gt;
+</code></pre>
+<p>
+  Replace <code>&lt;your_access_token_here&gt;</code> with the actual access token received upon login.
+</p>
+
+<h2>TO DO Items</h2>
+
+- Write tests for the app
 
 <h2>Contributors</h2>
 
